@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
 
+export { IconEdit, IconSave, IconCancel, IconButton } from "./icons";
+
 export const ShopRoot = styled.div`
   margin-top: 15px;
   border: 1px solid white;
@@ -145,4 +147,77 @@ export const CustomSelectItem = styled.div`
   &:hover {
     background: rgba(255, 255, 255, 0.02);
   }
+`;
+
+export const OptionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const OptionRow = styled(CustomSelectItem)<{ $level?: number }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: ${(p) => (p.$level ?? 0) * 12}px;
+`;
+
+export const ExpandButton = styled.button<{ $isOpen?: boolean }>`
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  cursor: ${(p) => (p.$isOpen ? "zoom-out" : "zoom-in")};
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin-left: 8px;
+  border-radius: 6px;
+`;
+
+export const RowHeader = styled.div`
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #e5e7eb;
+  > div:first-child {
+    flex: 3;
+  }
+  > div:nth-child(2) {
+    flex: 1;
+    text-align: right;
+  }
+  > div:nth-child(3) {
+    flex: 2;
+    padding-left: 12px;
+    text-align: left;
+  }
+`;
+
+export const Card = styled.div<{ $odd?: boolean }>`
+  background: ${(p) => (p.$odd ? "#141414" : "#0b0b0b")};
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: row;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  > div:first-child {
+    flex: 3;
+  }
+  > div:nth-child(2) {
+    flex: 1;
+    text-align: right;
+  }
+  > div:nth-child(3) {
+    flex: 2;
+    text-align: left;
+    padding-left: 12px;
+  }
+  color: #e5e7eb;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 `;

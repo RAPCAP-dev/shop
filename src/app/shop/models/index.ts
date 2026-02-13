@@ -1,14 +1,23 @@
-type ProductItemParamsType  = {
+export type Product = {
   name: string;
-  price: number;
-}
-  
+  price: string;
+  category: string | null;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  parentId: string | null;
+};
+
 export class ProductItem {
   name: string;
-  price: number;
+  price: string;
 
-  constructor(params: ProductItemParamsType) {
-    this.name = params.name
-    this.price = params.price
+  constructor(params: Product) {
+    this.name = params.name;
+    this.price = params.price;
   }
 }
+
+export type StoredProduct = Product & { __idx: number };
