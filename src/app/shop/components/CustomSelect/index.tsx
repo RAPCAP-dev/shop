@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 
 import {
   CustomSelectRoot,
@@ -34,19 +34,20 @@ export const CustomSelect: React.FC<{
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
-  const selected = options.find((o) => o.id === value);
+  const selected = useMemo(
+    () => options.find((o) => o.id === value),
+    [options, value],
+  );
 
-  const buildMap = (items: Category[]) => {
+  const childrenMap = useMemo(() => {
     const map = new Map<string | null, Category[]>();
-    items.forEach((it) => {
+    options.forEach((it) => {
       const arr = map.get(it.parentId) || [];
       arr.push(it);
       map.set(it.parentId, arr);
     });
     return map;
-  };
-
-  const childrenMap = buildMap(options);
+  }, [options]);
 
   const toggleLocal = (id: string) => {
     setExpandedLocal((s) => ({ ...s, [id]: !s[id] }));

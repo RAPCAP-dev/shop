@@ -73,4 +73,4 @@ export const CategoryNode: React.FC<Props> = ({
   );
 };
 
-export default CategoryNode;
+export default React.memo(CategoryNode);

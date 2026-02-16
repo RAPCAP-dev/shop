@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useState, ChangeEvent, startTransition } from "react";
+import {
+  useEffect,
+  useState,
+  ChangeEvent,
+  startTransition,
+  useCallback,
+} from "react";
 
 import { ShopRoot, NavBar, NavToggle } from "@ui";
 import { ShopView, CategoriesView } from "@components";
@@ -21,16 +27,16 @@ export const Shop = () => {
   const [fields, setFields] = useState<Product>(defaultValues);
   const [list, setList] = useState<StoredProduct[]>([]);
 
-  const getOnChange = (key: keyof Product) => {
+  const getOnChange = useCallback((key: keyof Product) => {
     return (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setFields((c) => ({ ...c, [key]: e.target.value }) as Product);
-  };
+  }, []);
 
-  const reload = () => {
+  const reload = useCallback(() => {
     setList(getAllProducts());
-  };
+  }, []);
 
-  const onSave = () => {
+  const onSave = useCallback(() => {
     // normalize empty category to null
     const toStore = {
       ...fields,
@@ -39,7 +45,7 @@ export const Shop = () => {
     addProduct(toStore);
     reload();
     setFields(defaultValues);
-  };
+  }, [fields, reload]);
 
   useEffect(() => {
     const cats = getCategories();

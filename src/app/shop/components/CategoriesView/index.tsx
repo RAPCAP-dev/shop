@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useMemo, useCallback } from "react";
 import {
   CategoryPanel,
   CategoryControls,
@@ -17,7 +17,7 @@ import { saveCategories } from "@utils";
 
 type Props = {
   categories: Category[];
-  setCategories: (next: Category[]) => void;
+  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
 };
 
 export const CategoriesView: React.FC<Props> = ({
@@ -27,21 +27,22 @@ export const CategoriesView: React.FC<Props> = ({
   const [catName, setCatName] = useState("");
   const [catParent, setCatParent] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const addCategory = () => {
+  const addCategory = useCallback(() => {
     if (!catName.trim()) return;
     const id = String(Date.now());
-    const next = [
-      ...categories,
-      { id, name: catName.trim(), parentId: catParent },
-    ];
-    setCategories(next);
-    saveCategories(next);
+    const entry = { id, name: catName.trim(), parentId: catParent };
+    setCategories((prev) => {
+      const next = [...prev, entry];
+      saveCategories(next);
+      return next;
+    });
     setCatName("");
     setCatParent(null);
-  };
+  }, [catName, catParent]);
 
-  const buildChildrenMap = (items: Category[]) => {
+  const buildChildrenMap = useCallback((items: Category[]) => {
     const map = new Map<string | null, typeof items>();
     items.forEach((it) => {
       const arr = map.get(it.parentId) || [];
@@ -49,16 +50,13 @@ export const CategoriesView: React.FC<Props> = ({
       map.set(it.parentId, arr);
     });
     return map;
-  };
+  }, []);
 
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
-  const renderCategoryTree = (items: Category[], filter = "") => {
-    const normalized = filter.trim().toLowerCase();
-    const roots = items.filter((i) => i.parentId === null);
-    const childrenMap = buildChildrenMap(items);
-
+  const treeNodes = useMemo(() => {
+    const normalized = search.trim().toLowerCase();
     if (!normalized) {
+      const childrenMap = buildChildrenMap(categories);
+      const roots = categories.filter((i) => i.parentId === null);
       return roots.map((r) => (
         <CategoryNode
           key={r.id}
@@ -71,13 +69,13 @@ export const CategoriesView: React.FC<Props> = ({
       ));
     }
 
-    const matched = items.filter((i) =>
+    const matched = categories.filter((i) =>
       i.name.toLowerCase().includes(normalized),
     );
     if (!matched.length) return <div>No matches</div>;
 
     const toRender: Category[] = [];
-    const byId = new Map(items.map((i) => [i.id, i] as const));
+    const byId = new Map(categories.map((i) => [i.id, i] as const));
     matched.forEach((m) => {
       for (
         let cur: Category | null | undefined = m;
@@ -99,7 +97,7 @@ export const CategoriesView: React.FC<Props> = ({
         setExpanded={setExpanded}
       />
     ));
-  };
+  }, [categories, search, expanded, buildChildrenMap, setExpanded]);
 
   return (
     <>
@@ -137,7 +135,7 @@ export const CategoriesView: React.FC<Props> = ({
           }
         />
 
-        <TreeWrap>{renderCategoryTree(categories, search)}</TreeWrap>
+        <TreeWrap>{treeNodes}</TreeWrap>
       </CategoryPanel>
     </>
   );

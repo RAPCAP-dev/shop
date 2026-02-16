@@ -29,4 +29,4 @@ export const ElementRow: React.FC<{
   </Card>
 );
 
-export default ElementRow;
+export default React.memo(ElementRow);
