@@ -1,0 +1,25 @@
+const ru = {
+  shop: "Магазин",
+  categories: "Категории",
+  create_product: "Создать товар",
+  create_category: "Создать категорию",
+  name_placeholder: "Название",
+  price_placeholder: "Цена",
+  col_name: "Название",
+  col_price: "Цена",
+  col_category: "Категория",
+  no_category: "(без категории)",
+  no_matches: "Совпадений не найдено",
+  category_name_placeholder: "Название категории",
+  no_parent: "(без родителя)",
+  save: "Сохранить",
+  cancel: "Отмена",
+  add: "Добавить",
+  search: "Поиск",
+  search_placeholder: "Поиск категорий",
+  empty: "Пусто",
+  select_placeholder: "Выбрать",
+  edit: "Изменить",
+};
+
+export default ru;

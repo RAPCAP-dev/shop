@@ -1,0 +1,25 @@
+const en = {
+  shop: "Shop",
+  categories: "Categories",
+  create_product: "Create product",
+  create_category: "Create category",
+  name_placeholder: "Name",
+  price_placeholder: "Price",
+  col_name: "Name",
+  col_price: "Price",
+  col_category: "Category",
+  no_category: "(no category)",
+  no_matches: "No matches",
+  category_name_placeholder: "Category name",
+  no_parent: "(no parent)",
+  save: "Save",
+  cancel: "Cancel",
+  add: "Add",
+  search: "Search",
+  search_placeholder: "Search categories",
+  empty: "Empty",
+  select_placeholder: "Select",
+  edit: "Edit",
+};
+
+export default en;

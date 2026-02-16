@@ -5,6 +5,7 @@ import React, { ChangeEvent } from "react";
 import { CreateForm, Input, Button, Fields, SelectWrap } from "@ui";
 import { CustomSelect, List } from "@components";
 import { Product, Category, StoredProduct } from "@models";
+import { useLocale } from "@i18n";
 
 type Props = {
   fields: Product;
@@ -27,18 +28,20 @@ export const ShopView: React.FC<Props> = ({
   list,
   reload,
 }) => {
+  const { t } = useLocale();
+
   return (
     <>
-      <h2>Сreate product</h2>
+      <h2>{t("create_product")}</h2>
       <CreateForm>
         <Fields>
           <Input
-            placeholder="Name"
+            placeholder={t("name_placeholder")}
             value={fields.name}
             onChange={getOnChange("name")}
           />
           <Input
-            placeholder="Price"
+            placeholder={t("price_placeholder")}
             value={fields.price}
             onChange={getOnChange("price")}
           />
@@ -46,12 +49,12 @@ export const ShopView: React.FC<Props> = ({
             <CustomSelect
               value={fields.category ?? ""}
               options={categories}
-              placeholder="(no category)"
+              placeholder={t("no_category")}
               onChange={(v) => onCategoryChange(v || null)}
             />
           </SelectWrap>
 
-          <Button onClick={onSave}>Save</Button>
+          <Button onClick={onSave}>{t("save")}</Button>
         </Fields>
       </CreateForm>
 

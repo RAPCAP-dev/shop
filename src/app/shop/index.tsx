@@ -8,10 +8,11 @@ import {
   useCallback,
 } from "react";
 
-import { ShopRoot, NavBar, NavToggle } from "@ui";
-import { ShopView, CategoriesView } from "@components";
+import { ShopRoot } from "@ui";
+import { ShopView, CategoriesView, Header } from "@components";
 import { Product, Category, StoredProduct } from "@models";
 import { getCategories, getAllProducts, addProduct } from "@utils";
+import { LocaleProvider } from "@i18n";
 
 const defaultValues: Product = {
   name: "",
@@ -57,35 +58,28 @@ export const Shop = () => {
   }, []);
 
   return (
-    <ShopRoot>
-      <NavBar>
-        <NavToggle $active={view === "shop"} onClick={() => setView("shop")}>
-          Shop
-        </NavToggle>
-        <NavToggle
-          $active={view === "categories"}
-          onClick={() => setView("categories")}
-        >
-          Categories
-        </NavToggle>
-      </NavBar>
+    <LocaleProvider>
+      <ShopRoot>
+        <Header view={view} setView={setView} />
 
-      <h1>{view === "shop" ? "Shop" : "Categories"}</h1>
-
-      {view === "shop" ? (
-        <ShopView
-          fields={fields}
-          getOnChange={getOnChange}
-          onCategoryChange={(v) => setFields((c) => ({ ...c, category: v }))}
-          onSave={onSave}
-          categories={categories}
-          list={list}
-          reload={reload}
-        />
-      ) : (
-        <CategoriesView categories={categories} setCategories={setCategories} />
-      )}
-    </ShopRoot>
+        {view === "shop" ? (
+          <ShopView
+            fields={fields}
+            getOnChange={getOnChange}
+            onCategoryChange={(v) => setFields((c) => ({ ...c, category: v }))}
+            onSave={onSave}
+            categories={categories}
+            list={list}
+            reload={reload}
+          />
+        ) : (
+          <CategoriesView
+            categories={categories}
+            setCategories={setCategories}
+          />
+        )}
+      </ShopRoot>
+    </LocaleProvider>
   );
 };
 

@@ -12,6 +12,7 @@ import {
   ExpandButton,
 } from "@ui";
 import { Category } from "@models";
+import { useLocale } from "@i18n";
 
 export const CustomSelect: React.FC<{
   value: string | null;
@@ -38,6 +39,7 @@ export const CustomSelect: React.FC<{
     () => options.find((o) => o.id === value),
     [options, value],
   );
+  const { t } = useLocale();
 
   const childrenMap = useMemo(() => {
     const map = new Map<string | null, Category[]>();
@@ -91,7 +93,9 @@ export const CustomSelect: React.FC<{
         aria-expanded={open}
         style={{ cursor: open ? "zoom-out" : "zoom-in" }}
       >
-        <span>{selected ? selected.name : (placeholder ?? "Select")}</span>
+        <span>
+          {selected ? selected.name : (placeholder ?? t("select_placeholder"))}
+        </span>
         <span>{open ? "▴" : "▾"}</span>
       </CustomSelectTrigger>
       {open && (
@@ -102,7 +106,7 @@ export const CustomSelect: React.FC<{
               setOpen(false);
             }}
           >
-            (no category)
+            {t("no_category")}
           </CustomSelectItem>
           {(childrenMap.get(null) || []).map((root) =>
             renderOptionNode(root, 0),

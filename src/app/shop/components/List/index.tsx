@@ -6,6 +6,7 @@ import { Input, RowHeader, Card, IconButton, IconSave, IconCancel } from "@ui";
 import { CustomSelect, ElementRow } from "@components";
 import { StoredProduct, Product, Category } from "@models";
 import { updateProduct } from "@utils";
+import { useLocale } from "@i18n";
 
 const defaultValues: Product = {
   name: "",
@@ -18,6 +19,7 @@ export const List: React.FC<{
   categories: Category[];
   onReload: () => void;
 }> = ({ list, categories, onReload }) => {
+  const { t } = useLocale();
   const isEmpty = !list.length;
   const [editingIdx, setEditingIdx] = useState<number | null>(null);
   const [editFields, setEditFields] = useState<Product>(defaultValues);
@@ -50,9 +52,9 @@ export const List: React.FC<{
   return (
     <div>
       <RowHeader>
-        <div>Name</div>
-        <div>Price</div>
-        <div>Category</div>
+        <div>{t("col_name")}</div>
+        <div>{t("col_price")}</div>
+        <div>{t("col_category")}</div>
       </RowHeader>
       {!isEmpty
         ? list.map((item, i) => {
@@ -87,7 +89,7 @@ export const List: React.FC<{
                   <CustomSelect
                     value={editFields.category ?? ""}
                     options={categories}
-                    placeholder="(no category)"
+                    placeholder={t("no_category")}
                     onChange={(v) =>
                       setEditFields((s) => ({ ...s, category: v || null }))
                     }
@@ -119,7 +121,7 @@ export const List: React.FC<{
               />
             );
           })
-        : "Empty"}
+        : t("empty")}
     </div>
   );
 };

@@ -27,6 +27,8 @@
       "@components": ["./src/app/shop/components"],
       "@components/*": ["./src/app/shop/components/*"],
       "@utils": ["./src/app/shop/utils"],
+      "@i18n": ["./src/app/shop/i18n"],
+      "@i18n/*": ["./src/app/shop/i18n/*"],
       "@utils/*": ["./src/app/shop/utils/*"]
     }
   },
