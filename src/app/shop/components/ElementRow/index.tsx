@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Card, IconButton, IconEdit } from "../../ui";
+
+import { Card, IconButton, IconEdit } from "@ui";
 
 export const ElementRow: React.FC<{
   name: string;

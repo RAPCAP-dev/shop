@@ -19,7 +19,13 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@models": ["./src/app/shop/models"],
+      "@models/*": ["./src/app/shop/models/*"],
+      "@ui": ["./src/app/shop/ui"],
+      "@ui/*": ["./src/app/shop/ui/*"],
+      "@components": ["./src/app/shop/components"],
+      "@components/*": ["./src/app/shop/components/*"]
     }
   },
   "include": [

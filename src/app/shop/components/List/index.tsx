@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Input,
-  RowHeader,
-  Card,
-  IconButton,
-  IconSave,
-  IconCancel,
-} from "../../ui";
-import CustomSelect from "../CustomSelect";
-import ElementRow from "../ElementRow";
-import { StoredProduct, Product, Category } from "../../models";
+
+import { Input, RowHeader, Card, IconButton, IconSave, IconCancel } from "@ui";
+import { CustomSelect, ElementRow } from "@components";
+import { StoredProduct, Product, Category } from "@models";
 
 const defaultValues: Product = {
   name: "",

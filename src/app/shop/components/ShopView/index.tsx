@@ -1,10 +1,10 @@
 "use client";
 
 import React, { ChangeEvent } from "react";
-import { ShopRoot, CreateForm, Input, Button, Fields } from "../../ui";
-import { CustomSelect } from "../CustomSelect";
-import { List } from "../List";
-import { Product, Category, StoredProduct } from "../../models";
+
+import { CreateForm, Input, Button, Fields, SelectWrap } from "@ui";
+import { CustomSelect, List } from "@components";
+import { Product, Category, StoredProduct } from "@models";
 
 type Props = {
   fields: Product;
@@ -42,14 +42,14 @@ export const ShopView: React.FC<Props> = ({
             value={fields.price}
             onChange={getOnChange("price")}
           />
-          <div style={{ width: 240 }}>
+          <SelectWrap>
             <CustomSelect
               value={fields.category ?? ""}
               options={categories}
               placeholder="(no category)"
               onChange={(v) => onCategoryChange(v || null)}
             />
-          </div>
+          </SelectWrap>
 
           <Button onClick={onSave}>Save</Button>
         </Fields>

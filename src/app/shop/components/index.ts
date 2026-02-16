@@ -8,3 +8,5 @@ export { ShopView } from "./ShopView";
 export { default as ShopViewDefault } from "./ShopView";
 export { CategoriesView } from "./CategoriesView";
 export { default as CategoriesViewDefault } from "./CategoriesView";
+export { CategoryNode } from "./CategoryNode";
+export { default as CategoryNodeDefault } from "./CategoryNode";

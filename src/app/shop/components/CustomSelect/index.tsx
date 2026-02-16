@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+
 import {
   CustomSelectRoot,
   CustomSelectTrigger,
@@ -9,8 +10,8 @@ import {
   OptionWrapper,
   OptionRow,
   ExpandButton,
-} from "../../ui";
-import { Category } from "../../models";
+} from "@ui";
+import { Category } from "@models";
 
 export const CustomSelect: React.FC<{
   value: string | null;

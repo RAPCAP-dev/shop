@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState, ChangeEvent, startTransition } from "react";
-import { ShopRoot, NavBar, NavToggle } from "./ui/index";
 
-import { ShopView, CategoriesView } from "./components/index";
-
-import { Product, Category, StoredProduct } from "./models/index";
+import { ShopRoot, NavBar, NavToggle } from "@ui";
+import { ShopView, CategoriesView } from "@components";
+import { Product, Category, StoredProduct } from "@models";
 
 const defaultValues: Product = {
   name: "",

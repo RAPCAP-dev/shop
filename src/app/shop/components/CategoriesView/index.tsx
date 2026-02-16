@@ -10,10 +10,9 @@ import {
   TreeWrap,
   InputWrap,
   SelectWrap,
-} from "../../ui";
-import { CustomSelect } from "../CustomSelect";
-import { Category } from "../../models";
-import CategoryNode from "../CategoryNode";
+} from "@ui";
+import { CustomSelect, CategoryNode } from "@components";
+import { Category } from "@models";
 
 type Props = {
   categories: Category[];

@@ -2,8 +2,9 @@
 
 import React from "react";
 import { styled } from "styled-components";
-import { TreeNode } from "../../ui";
-import { Category } from "../../models";
+
+import { TreeNode } from "@ui";
+import { Category } from "@models";
 
 const Row = styled.div<{ $level: number; $clickable: boolean }>`
   display: flex;
