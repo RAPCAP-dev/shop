@@ -176,6 +176,19 @@ export const ExpandButton = styled.button<{ $isOpen?: boolean }>`
   border-radius: 6px;
 `;
 
+export const TreeWrap = styled.div`
+  margin-top: 8px;
+`;
+
+export const InputWrap = styled.div`
+  flex: 1;
+  min-width: 220px;
+`;
+
+export const SelectWrap = styled.div`
+  width: 240px;
+`;
+
 export const RowHeader = styled.div`
   display: flex;
   gap: 8px;

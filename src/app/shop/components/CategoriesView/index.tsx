@@ -7,10 +7,13 @@ import {
   Input,
   Button,
   SearchInput,
-  TreeNode,
+  TreeWrap,
+  InputWrap,
+  SelectWrap,
 } from "../../ui";
 import { CustomSelect } from "../CustomSelect";
 import { Category } from "../../models";
+import CategoryNode from "../CategoryNode";
 
 type Props = {
   categories: Category[];
@@ -50,52 +53,22 @@ export const CategoriesView: React.FC<Props> = ({
 
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const renderNode = (
-    node: { id: string; name: string },
-    childrenMap: Map<string | null, Category[]>,
-    level = 0,
-  ) => {
-    const children = childrenMap.get(node.id) || [];
-    const isOpen = !!expanded[node.id];
-
-    const toggle = (e?: React.MouseEvent) => {
-      e?.stopPropagation();
-      setExpanded((s) => ({ ...s, [node.id]: !s[node.id] }));
-    };
-
-    return (
-      <div key={node.id}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            paddingLeft: level * 12,
-            cursor: children.length ? "pointer" : "default",
-          }}
-          onClick={children.length ? toggle : undefined}
-        >
-          {children.length ? (
-            <div onClick={toggle} style={{ width: 18, textAlign: "center" }}>
-              {isOpen ? "▾" : "▸"}
-            </div>
-          ) : (
-            <div style={{ width: 18 }} />
-          )}
-          <TreeNode style={{ padding: 6 }}>{node.name}</TreeNode>
-        </div>
-        {isOpen && children.map((c) => renderNode(c, childrenMap, level + 1))}
-      </div>
-    );
-  };
-
   const renderCategoryTree = (items: Category[], filter = "") => {
     const normalized = filter.trim().toLowerCase();
     const roots = items.filter((i) => i.parentId === null);
     const childrenMap = buildChildrenMap(items);
 
     if (!normalized) {
-      return roots.map((r) => renderNode(r, childrenMap));
+      return roots.map((r) => (
+        <CategoryNode
+          key={r.id}
+          node={r}
+          childrenMap={childrenMap}
+          level={0}
+          expanded={expanded}
+          setExpanded={setExpanded}
+        />
+      ));
     }
 
     const matched = items.filter((i) =>
@@ -116,7 +89,16 @@ export const CategoriesView: React.FC<Props> = ({
     });
     const topRoots = toRender.filter((i) => i.parentId === null);
     const map2 = buildChildrenMap(toRender);
-    return topRoots.map((r) => renderNode(r, map2));
+    return topRoots.map((r) => (
+      <CategoryNode
+        key={r.id}
+        node={r}
+        childrenMap={map2}
+        level={0}
+        expanded={expanded}
+        setExpanded={setExpanded}
+      />
+    ));
   };
 
   return (
@@ -124,7 +106,7 @@ export const CategoriesView: React.FC<Props> = ({
       <h2>Create category</h2>
       <CategoryPanel>
         <CategoryControls>
-          <div style={{ flex: 1, minWidth: 220 }}>
+          <InputWrap>
             <Input
               placeholder="Category name"
               value={catName}
@@ -132,21 +114,21 @@ export const CategoriesView: React.FC<Props> = ({
                 setCatName(e.target.value)
               }
             />
-          </div>
-          <div style={{ width: 240 }}>
+          </InputWrap>
+          <SelectWrap>
             <CustomSelect
               value={catParent ?? ""}
               options={categories}
               placeholder="(no parent)"
               onChange={(v) => setCatParent(v || null)}
             />
-          </div>
+          </SelectWrap>
           <div>
             <Button onClick={addCategory}>Add</Button>
           </div>
         </CategoryControls>
 
-        <h2 style={{ marginTop: 12 }}>Search</h2>
+        <h2>Search</h2>
         <SearchInput
           placeholder="Search categories"
           value={search}
@@ -155,9 +137,7 @@ export const CategoriesView: React.FC<Props> = ({
           }
         />
 
-        <div style={{ marginTop: 8 }}>
-          {renderCategoryTree(categories, search)}
-        </div>
+        <TreeWrap>{renderCategoryTree(categories, search)}</TreeWrap>
       </CategoryPanel>
     </>
   );

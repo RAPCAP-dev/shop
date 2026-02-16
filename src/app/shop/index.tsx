@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState, ChangeEvent, startTransition } from "react";
-import { ShopRoot, NavBar, NavToggle, TreeNode } from "./ui";
+import { ShopRoot, NavBar, NavToggle } from "./ui/index";
 
-import { CategoriesView, ShopView } from "./components";
+import { ShopView, CategoriesView } from "./components/index";
 
-import { Product, Category, StoredProduct } from "./models";
+import { Product, Category, StoredProduct } from "./models/index";
 
 const defaultValues: Product = {
   name: "",
@@ -17,7 +17,6 @@ export const Shop = () => {
   const [view, setView] = useState<"shop" | "categories">("shop");
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const [fields, setFields] = useState<Product>(defaultValues);
   const [list, setList] = useState<StoredProduct[]>([]);
@@ -27,7 +26,7 @@ export const Shop = () => {
       const raw = localStorage.getItem("categories");
       if (!raw) return [];
       return JSON.parse(raw) as Category[];
-    } catch (e) {
+    } catch {
       return [];
     }
   };
@@ -63,7 +62,7 @@ export const Shop = () => {
       try {
         const item = JSON.parse(itemStr) as Product;
         res.push({ ...item, __idx: i });
-      } catch (e) {
+      } catch {
         // skip invalid
       }
     }
@@ -72,45 +71,6 @@ export const Shop = () => {
 
   const reload = () => {
     setList(loadAllProducts());
-  };
-
-  const renderNode = (
-    node: { id: string; name: string },
-    childrenMap: Map<string | null, Category[]>,
-    level = 0,
-  ) => {
-    const children = childrenMap.get(node.id) || [];
-    const isOpen = !!expanded[node.id];
-
-    const toggle = (e?: React.MouseEvent) => {
-      e?.stopPropagation();
-      setExpanded((s) => ({ ...s, [node.id]: !s[node.id] }));
-    };
-
-    return (
-      <div key={node.id}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            paddingLeft: level * 12,
-            cursor: children.length ? "pointer" : "default",
-          }}
-          onClick={children.length ? toggle : undefined}
-        >
-          {children.length ? (
-            <div onClick={toggle} style={{ width: 18, textAlign: "center" }}>
-              {isOpen ? "▾" : "▸"}
-            </div>
-          ) : (
-            <div style={{ width: 18 }} />
-          )}
-          <TreeNode style={{ padding: 6 }}>{node.name}</TreeNode>
-        </div>
-        {isOpen && children.map((c) => renderNode(c, childrenMap, level + 1))}
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -135,6 +95,7 @@ export const Shop = () => {
           Categories
         </NavToggle>
       </NavBar>
+
       <h1>{view === "shop" ? "Shop" : "Categories"}</h1>
 
       {view === "shop" ? (
@@ -153,3 +114,5 @@ export const Shop = () => {
     </ShopRoot>
   );
 };
+
+export default Shop;
