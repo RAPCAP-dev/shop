@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Input, RowHeader, Card, IconButton, IconSave, IconCancel } from "@ui";
 import { CustomSelect, ElementRow } from "@components";
 import { StoredProduct, Product, Category } from "@models";
+import { updateProduct } from "@utils";
 
 const defaultValues: Product = {
   name: "",
@@ -40,7 +41,7 @@ export const List: React.FC<{
       ...editFields,
       category: editFields.category === "" ? null : editFields.category,
     };
-    localStorage.setItem(`index-${idx}`, JSON.stringify(toStore));
+    updateProduct(idx, toStore);
     setEditingIdx(null);
     setEditFields(defaultValues);
     onReload();

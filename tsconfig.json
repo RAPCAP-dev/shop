@@ -25,7 +25,9 @@
       "@ui": ["./src/app/shop/ui"],
       "@ui/*": ["./src/app/shop/ui/*"],
       "@components": ["./src/app/shop/components"],
-      "@components/*": ["./src/app/shop/components/*"]
+      "@components/*": ["./src/app/shop/components/*"],
+      "@utils": ["./src/app/shop/utils"],
+      "@utils/*": ["./src/app/shop/utils/*"]
     }
   },
   "include": [

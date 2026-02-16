@@ -13,6 +13,7 @@ import {
 } from "@ui";
 import { CustomSelect, CategoryNode } from "@components";
 import { Category } from "@models";
+import { saveCategories } from "@utils";
 
 type Props = {
   categories: Category[];
@@ -35,7 +36,7 @@ export const CategoriesView: React.FC<Props> = ({
       { id, name: catName.trim(), parentId: catParent },
     ];
     setCategories(next);
-    localStorage.setItem("categories", JSON.stringify(next));
+    saveCategories(next);
     setCatName("");
     setCatParent(null);
   };
